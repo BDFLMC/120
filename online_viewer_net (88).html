@@ -1,0 +1,44 @@
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // 1. Initialize Supabase (Get these from your Supabase Dashboard)
+  const SUPABASE_URL = 'https://your-project-id.supabase.co';
+  const SUPABASE_ANON_KEY = 'your-public-anon-key';
+  
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // 2. Example: Secure Login Function
+  async function loginUser(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error('Login failed:', error.message);
+      alert('Invalid credentials');
+      return;
+    }
+
+    console.log('Logged in successfully! JWT Token received.');
+    // The Supabase client automatically stores the secure JWT in local storage
+    // and attaches it to all subsequent database requests.
+  }
+
+  // 3. Example: Fetching Customers Securely
+  async function fetchCustomers() {
+    // This will only return customers the logged-in user is allowed to see 
+    // based on your PostgreSQL Row Level Security (RLS) rules.
+    const { data: customers, error } = await supabase
+      .from('customers')
+      .select('id, name, mobile, kyc_status, risk_status');
+
+    if (error) {
+      console.error('Error fetching customers:', error);
+      return;
+    }
+
+    // Pass this data to the UI rendering function
+    renderCustomerTable(customers);
+  }
+</script>
