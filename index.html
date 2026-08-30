@@ -1,39 +1,52 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDFL Offline Collector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <style>
+        .hidden-section { display: none; }
+    </style>
+</head>
+<body class="bg-[#F4F7F9] p-4 md:p-8 flex items-center justify-center min-h-screen">
+    
+    <div id="login-section" class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#0A2540]">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-[#0A2540]">BDFL Finance</h1>
+            <p class="text-sm text-gray-500">Agent Portal Login</p>
+        </div>
+        
+        <input type="email" id="email" placeholder="Email Address" class="w-full border p-3 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-[#D4AF37]">
+        <input type="password" id="password" placeholder="Password" class="w-full border p-3 mb-6 rounded focus:outline-none focus:ring-2 focus:ring-[#D4AF37]">
+        
+        <button onclick="loginUser()" class="w-full bg-[#0A2540] text-[#D4AF37] font-bold py-3 rounded hover:bg-opacity-90 transition">
+            Secure Login
+        </button>
+        <p id="login-error" class="mt-4 text-sm font-semibold text-red-500 text-center"></p>
+    </div>
 
-<script>
-  // 1. Initialize Supabase (Get these from your Supabase Dashboard)
-  const SUPABASE_URL = 'https://msfjdsgjbfvggqescagv.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_nRcb-vi-KnS6XdRpJe808w_O2XTnC02';
-  
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <div id="dashboard-section" class="hidden-section w-full max-w-md bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#D4AF37]">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-[#0A2540]">Log Payment</h2>
+            <button onclick="logoutUser()" class="text-sm text-red-500 font-bold hover:underline">Logout</button>
+        </div>
+        
+        <input type="text" id="loanId" placeholder="Loan ID (e.g., L-123)" class="w-full border p-3 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-[#0A2540]">
+        <input type="number" id="amount" placeholder="Amount (₹)" class="w-full border p-3 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-[#0A2540]">
+        
+        <button onclick="logPayment()" class="w-full bg-[#D4AF37] text-[#0A2540] font-bold py-3 rounded hover:bg-opacity-90 transition">
+            Collect Payment
+        </button>
 
-  // 2. Example: Secure Login Function
-  async function loginUser(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+        <p id="status" class="mt-4 text-sm font-semibold text-center"></p>
+    </div>
 
-    if (error) {
-      console.error('Login failed:', error.message);
-      alert('Invalid credentials');
-      return;
-    }
-
-    console.log('Logged in successfully! JWT Token received.');
-    // The Supabase client automatically stores the secure JWT in local storage
-    // and attaches it to all subsequent database requests.
-  }
-
-  // 3. Example: Fetching Customers Securely
-  async function fetchCustomers() {
-    // This will only return customers the logged-in user is allowed to see 
-    // based on your PostgreSQL Row Level Security (RLS) rules.
-    const { data: customers, error } = await supabase
-      .from('customers')
-      .select('id, name, mobile, kyc_status, risk_status');
-
-    if (error) {
+    <script src="app.js"></script>
+</body>
+</html>
       console.error('Error fetching customers:', error);
       return;
     }
