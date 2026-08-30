@@ -1,5 +1,5 @@
 // 1. Initialize Supabase
-const supabase = supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_ANON_KEY');
+const supabase = supabase.createClient('https://msfjdsgjbfvggqescagv.supabase.co', 'sb_publishable_nRcb-vi-KnS6XdRpJe808w_O2XTnC02');
 
 // 2. Initialize Offline Database (Dexie.js)
 const localDB = new Dexie("BDFLLocalDB");
