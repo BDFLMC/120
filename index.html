@@ -47,6 +47,19 @@
     <script src="app.js"></script>
 </body>
 </html>
+        <input type="text" id="loanId" placeholder="Loan ID (e.g., L-123)" class="w-full border p-3 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-[#0A2540]">
+        <input type="number" id="amount" placeholder="Amount (₹)" class="w-full border p-3 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-[#0A2540]">
+        
+        <button onclick="logPayment()" class="w-full bg-[#D4AF37] text-[#0A2540] font-bold py-3 rounded hover:bg-opacity-90 transition">
+            Collect Payment
+        </button>
+
+        <p id="status" class="mt-4 text-sm font-semibold text-center"></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
       console.error('Error fetching customers:', error);
       return;
     }
